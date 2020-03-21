@@ -28,6 +28,6 @@ steps:
        '--namespace=${_NAMESPACE}'
       ]
       env:
-      - 'CLOUDSDK_COMPUTE_ZONE=${ZONE}'
+      - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
       - 'CLOUDSDK_CONTAINER_CLUSTER=${CLUSTER_NAME}'
       - 'NODE_ENV=${_NAMESPACE}'
