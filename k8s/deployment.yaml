@@ -37,19 +37,14 @@ spec:
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /var/secrets/google/key.json
-        - name: MONGO_URI
-          valueFrom:
-            secretKeyRef:
-              name: visor-secrets
-              key: mongo_uri
-        - name: CONVERT_FILES_URL
+        - name: CLOUD_STORAGE_BUCKET
           valueFrom:
             configMapKeyRef:
               name: converter-config
-              key: convert_files_url
-        - name: PORTAL_URL
+              key: cloud_storage_bucket
+        - name: GCP_PROJECT_ID
           valueFrom:
             configMapKeyRef:
-              name: visor-config
-              key: portal_url
+              name: converter-config
+              key: gcp_project_id
 
