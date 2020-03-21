@@ -10,8 +10,4 @@ module.exports = {
     bucket: process.env.CLOUD_STORAGE_BUCKET,
     filekey: process.env.GOOGLE_APPLICATION_CREDENTIALS,
   },
-  files: {
-    convertUrl: process.env.CONVERT_FILES_URL,
-    callbackUrl: process.env.CALLBACK_CONVERTED_SFILES_URL,
-  },
 };

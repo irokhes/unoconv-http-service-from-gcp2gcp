@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: palawan-converter
+  name: palawan-converter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: palawan-converter
+  template:
+    metadata:
+      labels:
+        run: palawan-converter
+    spec:
+      volumes:
+      - name: google-cloud-key
+        secret:
+          secretName: gcp-key
+      containers:
+      - name: palawan-converter
+        image: gcr.io/palawan/palawan-converter:latest
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 5000
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 5000
+        volumeMounts:
+            - name: google-cloud-key
+                mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/key.json
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: visor-secrets
+              key: mongo_uri
+        - name: CONVERT_FILES_URL
+          valueFrom:
+            configMapKeyRef:
+              name: converter-config
+              key: convert_files_url
+        - name: PORTAL_URL
+          valueFrom:
+            configMapKeyRef:
+              name: visor-config
+              key: portal_url
+

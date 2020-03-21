@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: palawan-converter-service
+spec:
+  selector:
+     run: palawan-converter
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
