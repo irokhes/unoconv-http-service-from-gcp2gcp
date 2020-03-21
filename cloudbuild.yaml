@@ -29,5 +29,5 @@ steps:
       ]
       env:
       - 'CLOUDSDK_COMPUTE_ZONE=${_ZONE}'
-      - 'CLOUDSDK_CONTAINER_CLUSTER=${CLUSTER_NAME}'
+      - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
       - 'NODE_ENV=${_NAMESPACE}'
