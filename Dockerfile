@@ -18,7 +18,7 @@ ENV TIMEOUT_SERVER 120000
 ENV TIMEOUT_SOCKET 140000
 
 # Expose 3000
-EXPOSE 3000
+EXPOSE 5000
 
 # Startup
 ENTRYPOINT /usr/bin/unoconv --listener --server=0.0.0.0 --port=2002 & npm run start

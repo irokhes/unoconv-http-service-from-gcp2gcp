@@ -5,7 +5,6 @@ metadata:
 spec:
   selector:
      run: palawan-converter
-  type: NodePort
   ports:
   - protocol: TCP
     port: 5000
