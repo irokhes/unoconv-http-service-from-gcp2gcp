@@ -9,13 +9,17 @@ const storage = new Storage({
 });
 const uuid = require('uuid/v4');
 
+const getFileInfo = ()  =>{
+    const filename = `${uuid()}.pdf`;
+    return {url:`https://storage.googleapis.com/${google.bucket}/${filename}`, filename}
+}
+
 //-
 // Generate a URL that allows temporary access to download your file.
 //-
-const uploadFileFromBuffer = (bufferFile) => {
+const uploadFileFromBuffer = (filename, bufferFile) => {
     return new Promise((resolve, reject) => {
         const bucket = storage.bucket(google.bucket);
-        const filename = `${uuid()}.pdf`;
         const file = bucket.file(filename);
 
         file.createWriteStream({
@@ -31,6 +35,7 @@ const uploadFileFromBuffer = (bufferFile) => {
     });
 }
 module.exports = {
-    uploadFileFromBuffer
+    uploadFileFromBuffer,
+    getFileInfo
 };
 
