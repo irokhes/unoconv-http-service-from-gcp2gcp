@@ -2,10 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const { port } = require('./config/vars');
-const service = require('./services/convert.service');
 const cloudService = require('./services/cloudStorage.service');
 const app = express();
 app.use(bodyParser.json());
+
+const agenda = require('./config/agenda');
 
 const callWebhook = async (body, url, options) => {
   const b = body;
@@ -13,18 +14,31 @@ const callWebhook = async (body, url, options) => {
   await axios.post(url, b).catch((error) => console.log(error));
 }
 
-app.post('/', async (req, res) => {
+(async function() { // IIFE to give access to async/await
+  await agenda.start();
+  console.log('agenda started');
+  require('./services/convert.service')(agenda);
+})();
+
+agenda.define('result', async job => {
   try {
-    const { filename, webhookURL, options } = req.body;
+    console.log('eeeee I got a result back ', job.attrs.data);
+    callWebhook({status: 'completed'}, job.attrs.data.webhookURL, job.attrs.data.options);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post('/', async (req, res) => {
+  const { filename, webhookURL, options } = req.body;
+  console.log('new incoming convert request')
+  try {
 
     const fileInfo = cloudService.getFileInfo();
 
     if (webhookURL) res.send({url:fileInfo.url}).status(202);
-    const fileBuffer = await service.convertFile(filename);
-    const result = await cloudService.uploadFileFromBuffer(fileInfo.filename, fileBuffer);
-    console.log('Result from the cloud: ', result);
-    webhookURL ? callWebhook({status: 'completed'}, webhookURL, options) : res.send(result);
 
+    agenda.now('convert', {filename, webhookURL, options});
   } catch (error) {
     console.log(error);
     if (webhookURL) callWebhook({status: 'error', error}, webhookURL, options);
