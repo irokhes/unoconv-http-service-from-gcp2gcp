@@ -43,10 +43,10 @@ spec:
               name: converter-config
               key: cloud_storage_bucket
         - name: MONGO_CONNECTION
-            valueFrom:
-              configMapKeyRef:
-                name: converter-config
-                key: mongo_connection
+          valueFrom:
+            configMapKeyRef:
+              name: converter-config
+              key: mongo_connection
         - name: GCP_PROJECT_ID
           valueFrom:
             configMapKeyRef:
