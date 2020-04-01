@@ -5,6 +5,7 @@ require('dotenv').config();
 module.exports = {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
+  mongoConnection: process.env.MONGO_CONNECTION,
   google: {
     projectId: process.env.GCP_PROJECT_ID,
     bucket: process.env.CLOUD_STORAGE_BUCKET,
