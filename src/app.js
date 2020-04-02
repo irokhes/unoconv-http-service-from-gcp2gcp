@@ -39,7 +39,7 @@ app.post('/', async (req, res) => {
     console.log('this is the file info');
     if (webhookURL) res.send({url:fileInfo.url}).status(202);
     console.log('after webhookURL');
-    agenda.now('convert', {filename, webhookURL, options});
+    agenda.now('convert', {convertedFilename: fileInfo.filename, filename, webhookURL, options});
   } catch (error) {
     console.log(error);
     if (webhookURL) callWebhook({status: 'error', error}, webhookURL, options);

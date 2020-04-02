@@ -13,7 +13,7 @@ module.exports = (agenda) => {
         try {
             console.log('convert service received ', job.attrs.data)
             const fileBuffer = await unoconv.convert(`https://storage.googleapis.com/${google.bucket}/${job.attrs.data.filename}`);
-            const result = await cloudService.uploadFileFromBuffer(job.attrs.data.filename, fileBuffer);
+            const result = await cloudService.uploadFileFromBuffer(job.attrs.data.convertedFilename, fileBuffer);
             agenda.now('result', Object.assign(job.attrs.data, {result}));
 
         } catch (error) {
