@@ -20,7 +20,7 @@ spec:
           secretName: gcp-key
       containers:
       - name: palawan-converter
-        image: gcr.io/palawan/palawan-converter:latest
+        image: gcr.io/palawan-273011/palawan-converter:latest
         ports:
         - containerPort: 5000
         livenessProbe:
@@ -47,6 +47,11 @@ spec:
             configMapKeyRef:
               name: converter-config
               key: mongo_connection
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: converter-config
+              key: port
         - name: GCP_PROJECT_ID
           valueFrom:
             configMapKeyRef:
