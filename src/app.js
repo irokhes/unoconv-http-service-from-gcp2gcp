@@ -31,13 +31,14 @@ agenda.define('result', async job => {
 
 app.post('/', async (req, res) => {
   const { filename, webhookURL, options } = req.body;
-  console.log('new incoming convert request')
+  console.log(req.body);
   try {
+    console.log('new incoming convert request')
 
     const fileInfo = cloudService.getFileInfo();
-
+    console.log('this is the file info');
     if (webhookURL) res.send({url:fileInfo.url}).status(202);
-
+    console.log('after webhookURL');
     agenda.now('convert', {filename, webhookURL, options});
   } catch (error) {
     console.log(error);
